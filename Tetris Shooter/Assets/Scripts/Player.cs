@@ -6,6 +6,7 @@ public class Player : MonoBehaviour
 {
     public int score;
     private Block currentBlock;
+    public Color playerColor;
 
     void Start()
     {
@@ -18,14 +19,21 @@ public class Player : MonoBehaviour
         
     }
 
+    //TODO: change controls to 8-directional + rotation
     public void Rotate(int direction)
     {
-        currentBlock.transform.Rotate(new Vector3(0,0,direction * -1f));
+        if (currentBlock != null)
+        {
+            currentBlock.transform.Rotate(new Vector3(0, 0, direction * -1f));
+        }
     }
 
     public void Move(bool fast)
     {
-        currentBlock.rigidB.velocity = -transform.position.normalized * (fast ? 2 : 1) * GameManager.Instance.blockSpeed;
+        if (currentBlock != null)
+        {
+            currentBlock.rigidB.velocity = -transform.position.normalized * (fast ? 2 : 1) * GameManager.Instance.blockSpeed;
+        }
     }
 
     public void NewBlock()

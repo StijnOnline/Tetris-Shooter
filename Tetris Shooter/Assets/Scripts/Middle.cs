@@ -15,7 +15,7 @@ public class Middle : MonoBehaviour
 
         foreach( Block block in GameManager.Instance.blocks)
         {
-            block.rigidB.AddForce(-block.transform.position * GameManager.Instance.middleForce);
+            block.rigidB.AddForce(-block.transform.position.normalized * GameManager.Instance.middleForce);
         }
     }
 }
