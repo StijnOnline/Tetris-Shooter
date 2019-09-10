@@ -4,49 +4,41 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    public int score;
+    private int score;
     private Block currentBlock;
+    private Block savedBlock;
+    public Block GetBlock() { return currentBlock; }
     public Color playerColor;
 
-    void Start()
+    public void SaveBlock()
     {
-        
-    }
-
-
-    void Update()
-    {
-        
-    }
-
-    //TODO: change controls to 8-directional + rotation
-    public void Rotate(int direction)
-    {
-        if (currentBlock != null)
+        if(savedBlock == null)
         {
-            currentBlock.transform.Rotate(new Vector3(0, 0, direction * -1f));
+            savedBlock = currentBlock;
+            savedBlock.gameObject.SetActive(false);
+            NewBlock();
         }
-    }
-
-    public void Move(bool fast)
-    {
-        if (currentBlock != null)
+        else
         {
-            currentBlock.rigidB.velocity = -transform.position.normalized * (fast ? 2 : 1) * GameManager.Instance.blockSpeed;
+            Block temp = savedBlock;
+            savedBlock = currentBlock;
+            savedBlock.gameObject.SetActive(false);
+            currentBlock = temp;
+            currentBlock.gameObject.SetActive(true);
+            currentBlock.transform.position = transform.position * 0.8f;
         }
     }
 
     public void NewBlock()
     {
-        GameObject _block = Instantiate(GameManager.Instance.blockPrefabs[Random.Range(0, GameManager.Instance.blockPrefabs.Length)]);
-        _block.transform.position = transform.position * 0.9f;        
+        GameObject _block = GameManager.Instance.blockPool.GetNext();
+        _block.transform.position = transform.position * 0.8f;
         currentBlock = _block.GetComponent<Block>();
         currentBlock.owner = this;
-        GameManager.Instance.blocks.Add(currentBlock);
     }
 
     public void AddScore(int _addAmount)
     {
-
+        score += _addAmount;
     }
 }
