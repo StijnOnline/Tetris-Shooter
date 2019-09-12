@@ -20,9 +20,11 @@ public class Player : MonoBehaviour
         }
         else
         {
+            //old block
             Block temp = savedBlock;
             savedBlock = currentBlock;
-            savedBlock.gameObject.SetActive(false);
+            currentBlock.transform.position = new Vector3(15,15,0);
+            //new block
             currentBlock = temp;
             currentBlock.gameObject.SetActive(true);
             currentBlock.transform.position = transform.position * 0.8f;

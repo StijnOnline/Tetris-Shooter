@@ -4,24 +4,29 @@ using UnityEngine;
 
 public class PlayerInput
 {
-    public void GetInput()
+    public float[] GetInput()
     {
+        float[] input = new float[8];
         //buttons set in Project settings
 
-        float _inputHor = Input.GetAxis("Player1Hor");
-        float _inputVer = Input.GetAxis("Player1Ver");
-        float _inputRot = Input.GetAxis("Player1Rot");
-        bool _inputSav = Input.GetButtonDown("Player1Sav");
-        GameManager.Instance.players[0].GetBlock()?.Move(_inputHor, _inputVer);
-        GameManager.Instance.players[0].GetBlock()?.Rotate(_inputRot);
-        if (_inputSav) { GameManager.Instance.players[0].SaveBlock(); }
+        input[0] = (int)Input.GetAxisRaw("Player1Hor");
+        input[1] = (int)Input.GetAxisRaw("Player1Ver");
+        input[2] = (int)Input.GetAxis("Player1Rot");
+        input[3] = Input.GetButtonDown("Player1Sav") ? 1 : 0;
 
-        _inputHor = Input.GetAxis("Player2Hor");
-        _inputVer = Input.GetAxis("Player2Ver");
-        _inputRot = Input.GetAxis("Player2Rot");
-        _inputSav = Input.GetButtonDown("Player2Sav");
-        GameManager.Instance.players[1].GetBlock()?.Move(_inputHor, _inputVer);
-        GameManager.Instance.players[1].GetBlock()?.Rotate(_inputRot);
-        if (_inputSav) { GameManager.Instance.players[1].SaveBlock(); }
+
+        //GameManager.Instance.players[0].GetBlock()?.Move(_inputHor, _inputVer);
+        //GameManager.Instance.players[0].GetBlock()?.Rotate(_inputRot);
+        //if (_inputSav) { GameManager.Instance.players[0].SaveBlock(); }
+
+        input[4] = Input.GetAxis("Player2Hor");
+        input[5] = Input.GetAxis("Player2Ver");
+        input[6] = Input.GetAxis("Player2Rot");
+        input[7] = Input.GetButtonDown("Player2Sav") ? 1 : 0;
+        //GameManager.Instance.players[1].GetBlock()?.Move(_inputHor, _inputVer);
+        //GameManager.Instance.players[1].GetBlock()?.Rotate(_inputRot);
+        //if (_inputSav) { GameManager.Instance.players[1].SaveBlock(); }
+
+        return input;
     }
 }

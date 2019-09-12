@@ -23,11 +23,13 @@ public class GameManager : MonoBehaviour {
     public Player[] players = new Player[2];
 
     public event System.Action GetInput;
-    public event System.Action UpdateMiddle;
 
     private PlayerInput playerInput;
-    private Middle middle;
     public BlockPool blockPool;
+
+    public delegate void AttractDelegate(Vector3 target, float force);
+    public AttractDelegate Attract;
+    public Transform middlepoint;
 
     private void Awake()
     {
@@ -39,19 +41,35 @@ public class GameManager : MonoBehaviour {
     {
         playerInput = new PlayerInput();
         blockPool = new BlockPool(blockPrefab,20);
-        middle = FindObjectOfType<Middle>();
 
-        GetInput += playerInput.GetInput;
-        UpdateMiddle += middle.UpdateMiddle;
+        //GetInput += playerInput.GetInput;
 
         players[0].NewBlock();
         players[1].NewBlock();
+
+        
+    }
+
+    private void OnDestroy()
+    {
+
+        //GetInput -= playerInput.GetInput;
     }
 
     private void Update()
     {
-        GetInput.Invoke();
-        UpdateMiddle.Invoke();
+        
+        float[] input = playerInput.GetInput();
+        //TODO Rewrite input
+        players[0].GetBlock()?.Move(input[0], input[1]);
+        players[0].GetBlock()?.Rotate(input[2]);
+        if (input[3]==1) { players[0].SaveBlock(); }
+
+        players[1].GetBlock()?.Move(input[4], input[5]);
+        players[1].GetBlock()?.Rotate(input[6]);
+        if (input[7]==1) { players[1].SaveBlock(); }
+
+        Attract(transform.position, middleForce);
     }
 
     
