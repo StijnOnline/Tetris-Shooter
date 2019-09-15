@@ -9,7 +9,9 @@ public class GameManager : MonoBehaviour {
 
     public float blockSpeed = 1;
     public float middleForce = 1;
-    public float middleRotateSpeed = 1;
+
+    //TODO: set rotate speed in animator
+    //public float middleRotateSpeed = 1;  
 
     private List<Block> blocks = new List<Block>();
     //is this usefull or unneccesary?
@@ -22,10 +24,11 @@ public class GameManager : MonoBehaviour {
     //TODO: other way without player references?
     public Player[] players = new Player[2];
 
-    public event System.Action GetInput;
+    public event System.Action UpdateUI;
 
     private PlayerInput playerInput;
     public BlockPool blockPool;
+    public UI UI;
 
     public delegate void AttractDelegate(Vector3 target, float force);
     public AttractDelegate Attract;
@@ -42,8 +45,6 @@ public class GameManager : MonoBehaviour {
         playerInput = new PlayerInput();
         blockPool = new BlockPool(blockPrefab,20);
 
-        //GetInput += playerInput.GetInput;
-
         players[0].NewBlock();
         players[1].NewBlock();
 
@@ -52,24 +53,17 @@ public class GameManager : MonoBehaviour {
 
     private void OnDestroy()
     {
-
-        //GetInput -= playerInput.GetInput;
+        Attract = null;
     }
 
     private void Update()
-    {
-        
-        float[] input = playerInput.GetInput();
-        //TODO Rewrite input
-        players[0].GetBlock()?.Move(input[0], input[1]);
-        players[0].GetBlock()?.Rotate(input[2]);
-        if (input[3]==1) { players[0].SaveBlock(); }
+    {        
+        players[0].ProcessInput(playerInput.GetInput(0));
+        players[1].ProcessInput(playerInput.GetInput(1));
 
-        players[1].GetBlock()?.Move(input[4], input[5]);
-        players[1].GetBlock()?.Rotate(input[6]);
-        if (input[7]==1) { players[1].SaveBlock(); }
+        if (Attract != null) { Attract(transform.position, middleForce); }
 
-        Attract(transform.position, middleForce);
+        UI.UpdatePlayerUI(players[0].score, players[0].energy, players[1].score, players[1].energy);
     }
 
     

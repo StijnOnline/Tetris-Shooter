@@ -37,12 +37,12 @@ public class Block : MonoBehaviour
         transform.Rotate(new Vector3(0, 0, _direction * -1f));
     }
 
-    public void Attract(Vector3 target,float force)
+    public void Attract(Vector3 target, float force)
     {
         rigidB.AddForce(target - transform.position.normalized * force);
     }
 
-    //TODO: when block hits trigger event?
+    //TODO: Fix multiple collisions awarding points 
     private void OnTriggerEnter2D(Collider2D _other)
     {
         if (Time.time < _firstTouch)
