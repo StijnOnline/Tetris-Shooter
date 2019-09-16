@@ -48,14 +48,14 @@ public class Player : MonoBehaviour
         }
         else
         {
-            GameObject _newblock = GameManager.Instance.blockPool.GetNext();
+            GameObject _newblock = BlockPool.Instance.GetNext();
             currentBlock = _newblock.GetComponent<Block>();
         }
         currentBlock.transform.position = transform.position * 0.8f;
         currentBlock = currentBlock.GetComponent<Block>();
         currentBlock.owner = this;
 
-        GameObject _newblock2 = GameManager.Instance.blockPool.GetNext();
+        GameObject _newblock2 = BlockPool.Instance.GetNext();
         nextBlock = _newblock2.GetComponent<Block>();
         nextBlock.transform.position = transform.position * 1.2f + new Vector3(0, -5, 0);
     }

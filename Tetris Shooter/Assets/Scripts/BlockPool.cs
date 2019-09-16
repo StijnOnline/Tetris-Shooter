@@ -4,15 +4,33 @@ using UnityEngine;
 
 public class BlockPool
 {
-    //Efficient?
 
     private List<GameObject> pool;
     private GameObject block;
     private Transform root;
 
-    public BlockPool(GameObject _block, int startSize)
+    private static BlockPool instance;
+    public static BlockPool Instance {
+        get {
+            if (instance == null)
+            {
+                instance = new BlockPool(20);
+            }
+
+            return instance;
+        }
+    }
+
+    
+
+    public BlockPool(int startSize)
     {
-        block = _block;
+
+        block = Resources.Load<GameObject>("Block");
+        if(block == null)
+        {
+            Debug.LogError("Block Prefab not found in Resources");
+        }
         root = new GameObject().transform;
         root.name = "BlockPool";
         pool = new List<GameObject>();

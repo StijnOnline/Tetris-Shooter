@@ -81,9 +81,9 @@ public class Block : MonoBehaviour
                 foreach (Block b in new HashSet<Block>(connected))
                 {
                     GameManager.Instance.RemoveBlock(b);
-                    GameManager.Instance.blockPool.Return(b.gameObject);
+                    BlockPool.Instance.Return(b.gameObject);
                 }
-                GameManager.Instance.blockPool.Return(this.gameObject);
+                BlockPool.Instance.Return(this.gameObject);
             }
         }
     }

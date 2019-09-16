@@ -14,7 +14,7 @@ public class GameManager : MonoBehaviour {
     //public float middleRotateSpeed = 1;  
 
     private List<Block> blocks = new List<Block>();
-    //is this usefull or unneccesary?
+    //TODO: maybe remove block list?
     public List<Block> GetBlocks() { return blocks; }
     public void AddBlock(Block _block) { blocks.Add(_block);}
     public void RemoveBlock(Block _block) { blocks.Remove(_block); }
@@ -27,7 +27,6 @@ public class GameManager : MonoBehaviour {
     public event System.Action UpdateUI;
 
     private PlayerInput playerInput;
-    public BlockPool blockPool;
     public UI UI;
 
     public delegate void AttractDelegate(Vector3 target, float force);
@@ -43,12 +42,9 @@ public class GameManager : MonoBehaviour {
     private void Start()
     {
         playerInput = new PlayerInput();
-        blockPool = new BlockPool(blockPrefab,20);
 
         players[0].NewBlock();
-        players[1].NewBlock();
-
-        
+        players[1].NewBlock();                
     }
 
     private void OnDestroy()
