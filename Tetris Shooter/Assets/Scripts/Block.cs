@@ -8,7 +8,6 @@ public class Block : MonoBehaviour
     public Player owner;
     public HashSet<Block> connected = new HashSet<Block>();
     private Rigidbody2D rigidB;
-    public Rigidbody2D GetRigidB() { return rigidB; }
 
     private float _firstTouch = Mathf.Infinity;
 
@@ -18,13 +17,19 @@ public class Block : MonoBehaviour
         Randomize();
     }
 
-
-
     public void Randomize()
     {
         transform.GetChild(type).gameObject.SetActive(false);
         type = Random.Range(0,6);
         transform.GetChild(type).gameObject.SetActive(true);
+    }
+
+    public void SetFreeze(bool value)
+    {
+        if (rigidB != null)
+        {
+            rigidB.simulated = !value;
+        }
     }
 
     public void Move(float _x, float _y)
@@ -42,14 +47,15 @@ public class Block : MonoBehaviour
         rigidB.AddForce(target - transform.position.normalized * force);
     }
 
-    //TODO: Fix multiple collisions awarding points 
+    //TODO: Fix multiple collisions awarding points, this is because multiple blocks trigger at the same time.
     private void OnTriggerEnter2D(Collider2D _other)
     {
+        
+
         if (Time.time < _firstTouch)
         {
-            owner.Invoke("NewBlock", 1f); //TODO: change delay without invoke, because delay needs to be instant if it connects a pair
+            owner.Invoke("NewBlock", 1f); //TODO: change delay without invoke, because delay needs to be instant if it connects a pair, and not being called
             _firstTouch = Time.time;
-            GameManager.Instance.AddBlock(this);
             GameManager.Instance.Attract += Attract;
         }
         Block _otherBlock = _other.transform.parent?.parent?.GetComponent<Block>();
@@ -57,10 +63,11 @@ public class Block : MonoBehaviour
         {
 
             //Adding connected blocks of same type to hashset
+            //DISCUSS: Does this leave gaps? is this efficient?
             if (_otherBlock.type == type)
             {
-                connected.Add(_otherBlock);
                 connected.UnionWith(_otherBlock.connected);
+                connected.Add(_otherBlock);
                 _otherBlock.connected.UnionWith(connected);
             }
 
@@ -68,22 +75,24 @@ public class Block : MonoBehaviour
             if (connected.Count >= 3)
             {
 
-                if (transform.position.x < 0)
+                if (gameObject.GetInstanceID() > _other.GetInstanceID())//only 1 object will execute, hopefully
                 {
-                    GameManager.Instance.players[0].AddScore(30);
-                }
-                else
-                {
-                    GameManager.Instance.players[1].AddScore(30);
-                }
+                    if (transform.position.x < 0)
+                    {
+                        GameManager.Instance.players[0].AddScore(30);
+                    }
+                    else
+                    {
+                        GameManager.Instance.players[1].AddScore(30);
+                    }
 
-                connected.Remove(this);
-                foreach (Block b in new HashSet<Block>(connected))
-                {
-                    GameManager.Instance.RemoveBlock(b);
-                    BlockPool.Instance.Return(b.gameObject);
+                    connected.Remove(this);
+                    foreach (Block b in new HashSet<Block>(connected))
+                    {
+                        BlockPool.Instance.Return(b.gameObject);
+                    }
+                    BlockPool.Instance.Return(this.gameObject); 
                 }
-                BlockPool.Instance.Return(this.gameObject);
             }
         }
     }

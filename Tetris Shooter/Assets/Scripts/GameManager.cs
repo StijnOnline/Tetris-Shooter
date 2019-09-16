@@ -11,27 +11,16 @@ public class GameManager : MonoBehaviour {
     public float middleForce = 1;
 
     //TODO: set rotate speed in animator
-    //public float middleRotateSpeed = 1;  
-
-    private List<Block> blocks = new List<Block>();
-    //TODO: maybe remove block list?
-    public List<Block> GetBlocks() { return blocks; }
-    public void AddBlock(Block _block) { blocks.Add(_block);}
-    public void RemoveBlock(Block _block) { blocks.Remove(_block); }
-
-    public GameObject blockPrefab;
+    //public float middleRotateSpeed = 1;
 
     //TODO: other way without player references?
     public Player[] players = new Player[2];
-
-    public event System.Action UpdateUI;
 
     private PlayerInput playerInput;
     public UI UI;
 
     public delegate void AttractDelegate(Vector3 target, float force);
     public AttractDelegate Attract;
-    public Transform middlepoint;
 
     private void Awake()
     {
@@ -43,6 +32,8 @@ public class GameManager : MonoBehaviour {
     {
         playerInput = new PlayerInput();
 
+
+        //TODO: Replace w event?
         players[0].NewBlock();
         players[1].NewBlock();                
     }
@@ -53,7 +44,8 @@ public class GameManager : MonoBehaviour {
     }
 
     private void Update()
-    {        
+    {
+        //TODO: Replace w event?
         players[0].ProcessInput(playerInput.GetInput(0));
         players[1].ProcessInput(playerInput.GetInput(1));
 

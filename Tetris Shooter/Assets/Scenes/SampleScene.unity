@@ -1536,13 +1536,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   blockSpeed: 8
   middleForce: 100
-  blockPrefab: {fileID: 7480369268825703782, guid: d7468999c6f9f7e478099f0e283b2344,
-    type: 3}
   players:
   - {fileID: 1037277939}
   - {fileID: 1307658092}
   UI: {fileID: 1225379822}
-  middlepoint: {fileID: 1491470716}
 --- !u!4 &896217214
 Transform:
   m_ObjectHideFlags: 0
@@ -2118,7 +2115,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   score: 0
   energy: 0
-  playerColor: {r: 1, g: 0, b: 0, a: 1}
 --- !u!4 &1037277941
 Transform:
   m_ObjectHideFlags: 0
@@ -2845,7 +2841,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   score: 0
   energy: 0
-  playerColor: {r: 0, g: 0.44830537, b: 1, a: 1}
 --- !u!4 &1307658094
 Transform:
   m_ObjectHideFlags: 0
@@ -3739,7 +3734,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1598953201}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 8.98, y: 14, z: 0}
+  m_LocalPosition: {x: 9, y: 14, z: 0}
   m_LocalScale: {x: 11, y: 4, z: 1}
   m_Children:
   - {fileID: 720301638}

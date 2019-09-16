@@ -19,11 +19,9 @@ public class BlockPool
 
             return instance;
         }
-    }
+    }    
 
-    
-
-    public BlockPool(int startSize)
+    private BlockPool(int startSize)
     {
 
         block = Resources.Load<GameObject>("Block");
@@ -31,9 +29,11 @@ public class BlockPool
         {
             Debug.LogError("Block Prefab not found in Resources");
         }
+
         root = new GameObject().transform;
         root.name = "BlockPool";
         pool = new List<GameObject>();
+
         for (int i = 0; i < startSize; i++)
         {
             pool.Add(GameObject.Instantiate(block,root));

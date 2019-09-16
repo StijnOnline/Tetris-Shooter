@@ -9,8 +9,7 @@ public class Player : MonoBehaviour
     private Block nextBlock;
     private Block currentBlock;
     private Block savedBlock;
-    public Block GetBlock() { return currentBlock; }
-    public Color playerColor;
+    //public Color playerColor; for highlights, maybe use for graphics
 
     public void ProcessInput(float[] input)
     {
@@ -19,24 +18,27 @@ public class Player : MonoBehaviour
         if (input[3] == 1) { SaveBlock(); }
     }
 
-    public void SaveBlock()
+    private void SaveBlock()
     {
-        //TODO : freeze block when outside game
+        //TODO: maybe UI class move blocks to positions
         if (savedBlock == null)
         {
             savedBlock = currentBlock;
             savedBlock.transform.position = transform.position * 1.2f + new Vector3(0, 5, 0);
+            savedBlock.SetFreeze(true);
             NewBlock();
         }
         else
         {
             //old block
-            Block temp = savedBlock;
+            Block _temp = savedBlock;
             savedBlock = currentBlock;
             currentBlock.transform.position = transform.position * 1.2f + new Vector3(0, 5, 0);
+            savedBlock.SetFreeze(true);
             //new block
-            currentBlock = temp;
+            currentBlock = _temp;
             currentBlock.transform.position = transform.position * 0.8f;
+            savedBlock.SetFreeze(false);
         }
     }
 
@@ -53,11 +55,13 @@ public class Player : MonoBehaviour
         }
         currentBlock.transform.position = transform.position * 0.8f;
         currentBlock = currentBlock.GetComponent<Block>();
+        currentBlock.SetFreeze(false);
         currentBlock.owner = this;
 
         GameObject _newblock2 = BlockPool.Instance.GetNext();
         nextBlock = _newblock2.GetComponent<Block>();
         nextBlock.transform.position = transform.position * 1.2f + new Vector3(0, -5, 0);
+        nextBlock.SetFreeze(true);
     }
 
     public void AddScore(int _addAmount)
