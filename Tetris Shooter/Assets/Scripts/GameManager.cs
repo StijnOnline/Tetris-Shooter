@@ -13,7 +13,7 @@ public class GameManager : MonoBehaviour {
     //TODO: set rotate speed in animator
     //public float middleRotateSpeed = 1;
 
-    //TODO: other way without player references?
+    //DISCUSS: other way without player references?
     public Player[] players = new Player[2];
 
     private PlayerInput playerInput;
@@ -33,7 +33,7 @@ public class GameManager : MonoBehaviour {
         playerInput = new PlayerInput();
 
 
-        //TODO: Replace w event?
+        //DISCUSS: Replace w event?
         players[0].NewBlock();
         players[1].NewBlock();                
     }
@@ -45,7 +45,7 @@ public class GameManager : MonoBehaviour {
 
     private void Update()
     {
-        //TODO: Replace w event?
+        //DISCUSS: Replace w event?
         players[0].ProcessInput(playerInput.GetInput(0));
         players[1].ProcessInput(playerInput.GetInput(1));
 

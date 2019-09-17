@@ -47,14 +47,14 @@ public class Block : MonoBehaviour
         rigidB.AddForce(target - transform.position.normalized * force);
     }
 
-    //TODO: Fix multiple collisions awarding points, this is because multiple blocks trigger at the same time.
+    //TODO: Fix multiple collisions awarding points, because multiple blocks trigger at the same time.
     private void OnTriggerEnter2D(Collider2D _other)
     {
         
 
         if (Time.time < _firstTouch)
         {
-            owner.Invoke("NewBlock", 1f); //TODO: change delay without invoke, because delay needs to be instant if it connects a pair, and not being called
+            owner.NewBlock(); //TODO: sometimes not called?
             _firstTouch = Time.time;
             GameManager.Instance.Attract += Attract;
         }
@@ -74,7 +74,7 @@ public class Block : MonoBehaviour
             //If 3 blocks are connected remove them and award points
             if (connected.Count >= 3)
             {
-
+                Debug.Log("Instance " + gameObject.GetInstanceID() +" hit " + _other.GetInstanceID() + " - Time: " + Time.time);
                 if (gameObject.GetInstanceID() > _other.GetInstanceID())//only 1 object will execute, hopefully
                 {
                     if (transform.position.x < 0)
@@ -89,9 +89,9 @@ public class Block : MonoBehaviour
                     connected.Remove(this);
                     foreach (Block b in new HashSet<Block>(connected))
                     {
-                        BlockPool.Instance.Return(b.gameObject);
+                        BlockPool.Return(b.gameObject);
                     }
-                    BlockPool.Instance.Return(this.gameObject); 
+                    BlockPool.Return(this.gameObject); 
                 }
             }
         }

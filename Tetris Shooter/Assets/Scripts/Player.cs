@@ -20,7 +20,7 @@ public class Player : MonoBehaviour
 
     private void SaveBlock()
     {
-        //TODO: maybe UI class move blocks to positions
+        //DISCUSS: maybe UI class can move blocks to positions
         if (savedBlock == null)
         {
             savedBlock = currentBlock;
@@ -50,7 +50,7 @@ public class Player : MonoBehaviour
         }
         else
         {
-            GameObject _newblock = BlockPool.Instance.GetNext();
+            GameObject _newblock = BlockPool.GetNext();
             currentBlock = _newblock.GetComponent<Block>();
         }
         currentBlock.transform.position = transform.position * 0.8f;
@@ -58,7 +58,7 @@ public class Player : MonoBehaviour
         currentBlock.SetFreeze(false);
         currentBlock.owner = this;
 
-        GameObject _newblock2 = BlockPool.Instance.GetNext();
+        GameObject _newblock2 = BlockPool.GetNext();
         nextBlock = _newblock2.GetComponent<Block>();
         nextBlock.transform.position = transform.position * 1.2f + new Vector3(0, -5, 0);
         nextBlock.SetFreeze(true);
