@@ -2,23 +2,26 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlauseState : IGameState
+public class PauseState : IGameState
 {
     public SimpleStateEvent OnStateSwitch { get; set; }
     public GameManager gameManager { get; set; }
 
     public void End()
     {
-        throw new System.NotImplementedException();
+        Time.timeScale = 1;
     }
 
     public void Run()
     {
-        throw new System.NotImplementedException();
+        if (PlayerInput.GetPause())
+        {
+            OnStateSwitch(new PlayState());
+        }
     }
 
     public void Start()
     {
-        throw new System.NotImplementedException();
+        Time.timeScale = 0;
     }
 }
