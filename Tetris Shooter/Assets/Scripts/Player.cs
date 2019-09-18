@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+
+    //TODO: make non monobehaviour
     public int score = 0;
     public int energy = 0;
     private Block nextBlock;

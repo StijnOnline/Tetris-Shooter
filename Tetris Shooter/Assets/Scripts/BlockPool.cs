@@ -4,13 +4,16 @@ using UnityEngine;
 
 public static class BlockPool
 {
+    private static GameManager gameManager;
+
     private static List<GameObject> pool;
     private static GameObject block;
     private static Transform root;      
 
-    static BlockPool()
+    public static void Initialize(GameManager _gameManager)
     {
-
+        gameManager = _gameManager;
+        
         block = Resources.Load<GameObject>("Block");
         if(block == null)
         {
@@ -32,14 +35,16 @@ public static class BlockPool
     {
         if (pool.Count > 0)
         {
-            GameObject obj = pool[0];
-            obj.SetActive(true);
+            GameObject _obj = pool[0];
+            _obj.SetActive(true);
             pool.RemoveAt(0); 
-            return obj;
+            return _obj;
         }
         else
         {
-            return GameObject.Instantiate(block, root);
+            GameObject _newblock = GameObject.Instantiate(block, root);
+            _newblock.GetComponent<Block>().gameManager = gameManager;
+            return _newblock;
         }
     }
 

@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerInput
+public static class PlayerInput
 {
-    public float[] GetInput(int player)
+    public static float[] GetInput(int player)
     {
         float[] input = new float[4];
         //buttons set in Project settings
